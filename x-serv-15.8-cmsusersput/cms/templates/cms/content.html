@@ -1,0 +1,33 @@
+
+<h1>{{ contenido.clave }}</h1>
+<h2>{{ contenido.valor }}</h2>
+<hr>
+<h1>Comentarios:</h1>
+{% for comentario in contenido.comentario_set.all %}
+
+    <h2>{{ comentario.titulo }}</h2><br>
+        {{ comentario.cuerpo }}<br>
+        Enviado el {{ comentario.fecha }}<br>
+{% endfor %}
+
+{% if request.user.is_authenticated %}
+  <hr>
+  <br>
+  <form action="" method="POST">
+  Introduce el (nuevo) contenido para esta página:
+  <input type="text" name="valor">
+  <input type="submit" name="action" value="Enviar Contenido">
+
+  <br>
+  Atencion. El contenido se sobreescribirá
+  </form>
+
+  <br>
+  <form action="" method="POST">
+    Introduce un nuevo comentario para esta página:
+    <br>Título: <input type="text" name="titulo">
+    <br>Cuerpo: <input type="text" name="cuerpo">
+    <input type="submit" name="action" value="Enviar Comentario">
+
+  </form>
+{% endif %}

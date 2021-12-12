@@ -1,0 +1,19 @@
+<h1>Agrega una nueva url:</h1>
+<form action="" method="POST">
+  Escribe aqui una nueva URL que quieras acortar y meter en la base de datos:
+  <br>Título: <input type="text" name="URL">
+  <input type="submit" name="action" value="Enviar Contenido">
+</form>
+<br>
+<h1>Lista de contenidos:</h1>
+{% if content_list %}
+    <ul>
+    {% for content in content_list %}
+        <li>{{ content.clave }} &#8594;
+          <a href="http://localhost:8000/acortar/{{content.id}}">http://localhost:8000/acortar/{{content.id}}</a></li>
+        <br>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No contents are available.</p>
+{% endif %}
