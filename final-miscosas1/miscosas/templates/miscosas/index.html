@@ -1,0 +1,122 @@
+{% extends 'miscosas/base.html' %}
+
+{% block contenido %}
+
+<!-- About Forms -->
+<div class="w3-container"   id="forms">
+  <div class="w3-container w3-row w3-center w3-dark-grey">
+    <i class=" 	fa fa-bookmark w3-margin-top w3-jumbo"></i>
+    <h3 class="w3-center">Formularios</h3>
+    <p class="w3-center w3-large">Recoge información.</p>
+  </div>
+  <div class="w3-row-padding w3-center" style="margin-top:64px">
+    <div class="w3-half">
+      <i class="fa fa-youtube-play w3-margin-top w3-jumbo w3-center"></i>
+      <p class="w3-large">Youtube</p>
+      <p>Explora los contenidos de los canales</p>
+      <form action="" method="POST">{% csrf_token %}
+        <input type="text" name="valor">
+        <input type="submit" name="action" value="Enseñame el canal">
+      </form>
+    </div>
+    <div class="w3-half">
+      <i class="fa fa-reddit-alien w3-margin-top w3-jumbo"></i>
+      <p class="w3-large">Reddit</p>
+      <p>Ponte al dia con las noticias</p>
+      <form action="" method="POST">{% csrf_token %}
+        <input type="text" name="valor">
+        <input type="submit" name="action" value="Dame las noticias">
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- About Items -->
+<div class="w3-container w3-center" style="padding:128px 16px" id="top">
+  <div class="w3-container w3-dark-grey">
+    <i class="fa fa-heart w3-margin-top w3-jumbo"></i>
+    <h3 class="w3-center">Items con mayor puntuación</h3>
+    <p class="w3-center w3-large">Ranking de los items mas votados positivamente por nuestros usuarios</p>
+  </div>
+
+  <div class="w3-row-padding w3-center" style="margin-top:64px">
+    {% if item_list %}
+      {% for item in item_list %}
+        <div class="w3-third"  style="margin-top:64px">
+          <i class= w3-margin-top w3-jumbo w3-center"></i>
+          <p><a href="{% url 'item_info' item_id=item.id%}">{{ item.title }}</a></p>
+          <p style="color:DodgerBlue;"><a href="{{ item.link }}">{{ item.link }}</a></p>
+          <p>Votos positivos: {{item.votos_positivos}} || Votos negativos:{{item.votos_negativos}}</p>
+        </div>
+
+      {% endfor %}
+    {% else %}
+        <p>Contenido no disponible.</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- About Aimentadores -->
+<div class="w3-container w3-center" style="padding:128px 16px" id="alimentadores">
+
+  <div class="w3-container w3-dark-grey">
+    <i class="fa fa-share w3-margin-top w3-jumbo"></i>
+    <h3 class="w3-center">Alimentadores</h3>
+    <p class="w3-center w3-large">Alimentadores selecionados</p>
+  </div>
+  <div class="w3-row-padding w3-center" style="margin-top:64px">
+    {% if alimentadores_list  %}
+      {% for alimentador in alimentadores_list %}
+        {% if alimentador.selected%}
+        <div class="w3-third"  style="margin-top:64px">
+          <i class="w3-margin-top w3-jumbo w3-center"></i>
+          <p><a href="{% url 'alimentador_info' alim_id=alimentador.id%}">{{ alimentador.name }}</a></p>
+          <p style="color:DodgerBlue;><a href="{{ alimentador.link }}">{{ alimentador.link }}</a></p>
+          <p>Items disponibles: {{alimentador.item_set.count}}</p>
+          <p>Puntuacion: {{alimentador.puntuacion}}</p>
+          <!-- Botones seleccionar o deseleccionar -->
+          <div class="w3-centre">
+            <form action='/miscosas/' method="POST">
+              {% csrf_token %}
+              <input type='hidden' name='alim_id' value='{{alimentador.id}}'>
+              <button class ="save btn btn-info" name = 'action' value = "Seleccionar">Seleccionar</button>
+              <button class ="save btn btn-info" name = 'action' value = "Eliminar">Eliminar</button>
+            </form>
+          </div>
+        </div>
+        {%endif%}
+      {% endfor %}
+    {% else %}
+        <p>Contenido no disponible.</p>
+    {% endif %}
+  </div>
+</div>
+
+{%  if user.is_authenticated %}
+    <!-- About Last5Votes -->
+    <div class="w3-container w3-center" style="padding:128px 16px" id="misvotos">
+      <div class="w3-container w3-dark-grey">
+        <i class="fa fa-thumbs-up w3-margin-top w3-jumbo"></i>
+        <h3 class="w3-center">Votos recientes</h3>
+      </div>
+
+      <div class="w3-row-padding w3-center" style="margin-top:64px">
+        {% if votes  %}
+          {% for vote in votes %}
+
+          <div class="w3-third"  style="margin-top:64px">
+            <i class="w3-margin-top w3-jumbo w3-center"></i>
+            <p><a href="{% url 'item_info' item_id=vote.item.id%}">{{ vote.item.title }}</a></p>
+            <p style="color:DodgerBlue;"><a href="{{ vote.item.link }}">{{ vote.item.link }}</a></p>
+          </div>
+
+          {% endfor %}
+        {% else %}
+            <p>Contenido no disponible.</p>
+        {% endif %}
+      </div>
+    </div>
+
+{% endif %}
+
+{% endblock %}

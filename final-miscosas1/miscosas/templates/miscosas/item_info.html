@@ -1,0 +1,88 @@
+{% extends 'miscosas/base.html' %}
+
+{% block contenido %}
+
+  <br>
+  <div class="w3-container w3-row w3-center w3-dark-grey w3-padding-64">
+    <i class=" fa fa-anchor w3-margin-bottom w3-jumbo"></i>
+
+    <h1>{{ item.title }}</h1>
+    <p class="w3-center w3-large"><a href="{{ item.link }}">{{ item.link }}</a></p>
+  </div>
+
+  <div class="w3-container w3-row w3-center w3-padding-64">
+    <div class="w3-container w3-row w3-center w3-half ">
+      <h2>DESCRIPCIÓN</h2> <br> <p class="w3-center w3-large">{{item.description|safe}}</p>
+      <div class="w3-container w3-row w3-center w3-padding-64">
+        {%  if user.is_authenticated %}
+          {% include "miscosas/vote_subtemp.html" %}
+        {%endif%}
+
+      </div>
+
+    </div>
+    {%if alim%}
+      <div class="w3-container w3-row w3-center w3-half ">
+        <iframe width="560" height="315"
+          src="https://www.youtube.com/embed/{{item.id }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    {%endif%}
+
+  </div>
+
+  <hr>
+
+  <div class="w3-container w3-center" style="padding:128px 16px" id="team">
+    <i class="  	fa fa-comments w3-margin-bottom w3-jumbo"></i>
+    <h3 class="w3-center">COMENTARIOS</h3>
+    <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+      {%if item.comentario_set.all%}
+        {%  for comentario in item.comentario_set.all %}
+
+        <div class="w3-col l3 m6 w3-margin-bottom">
+          <div class="w3-card">
+            <div class="w3-container">
+              <h3>{{  comentario.user.username }}</h3>
+              <p class="w3-opacity">{{ comentario.fecha }}</p>
+              <p class="w3-center w3-large" >{{  comentario.cuerpo|linebreaksbr }}</p>
+
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      {%else%}
+        <p class="w3-center w3-large">No hay comentarios aún. ¡Prueba a escribir uno! Recuerda que para escribir un comentario debes estar logeado</p>
+      {%endif%}
+    </div>
+    {%  if user.is_authenticated %}
+      <button type="button"  class="w3-center btn btn-light"><a href="{% url 'item_comment' item_id=item.id %}">¡Añadir un comentario!</span></a></button>
+    {%endif%}
+  </div>
+
+  <hr>
+
+  <div class="w3-container w3-center w3-row w3-rigth w3-dark-grey w3-padding-64">
+    <h1>ALIMENTADOR</h1>
+    <div class="w3-quarter">
+      <p><a href="{% url 'alimentador_info' alim_id=item.alimentador.id%}">{{item.alimentador.name }}</a></p>
+    </div>
+    <div class="w3-quarter">
+      <p><a href="{{ item.alimentador.link }}">{{item.alimentador.link }}</a></p>
+    </div>
+    <div class="w3-quarter">
+      <p>Items disponibles: {{item.alimentador.item_set.count}}</p>
+    </div>
+    <div class="w3-quarter">
+      <p>Puntuacion: {{item.alimentador.puntuacion}}</p>
+    </div>
+
+
+
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,28 @@
+
+    <form action='/miscosas/item/{{item.id}}' method="POST">
+    {% csrf_token %}
+    <input type='hidden' name='item_id' value='{{item.id}}'>
+    {%  if not voto.thumbsUp and not voto.thumbsDown %}
+      <button class ="save btn btn-info" name = 'thumbs' value = "Up">
+        <img src="/static/miscosas/thumbs/thumbs.jpg" width = "60" height = "50">
+      </button>
+      <button class ="save btn btn-info" name = 'thumbs' value = "Down">
+        <img src="/static/miscosas/thumbs/thumbsD.jpg" width = "60" height = "50">
+      </button>
+
+    {%  elif voto.thumbsUp and not voto.thumbsDown%}
+      <button class ="save btn btn-info" name = 'thumbs' value = "Up">
+        <img src="/static/miscosas/thumbs/thumbsUp.jpg" width = "60" height = "50">
+      </button>
+      <button class ="save btn btn-info" name = 'thumbs' value = "Down">
+        <img src="/static/miscosas/thumbs/thumbsD.jpg" width = "60" height = "50">
+      </button>
+
+      {%  elif  voto.thumbsDown and not voto.thumbsUp%}
+        <button class ="save btn btn-info" name = 'thumbs' value = "Up">
+          <img src="/static/miscosas/thumbs/thumbs.jpg" width = "60" height = "50">
+        </button>
+        <button class ="save btn btn-info" name = 'thumbs' value = "Down">
+          <img src="/static/miscosas/thumbs/thumbsDown.jpg" width = "60" height = "50">
+        </button>
+    {%  endif %}

@@ -1,0 +1,35 @@
+{% extends 'miscosas/base.html' %}
+
+{% block contenido %}
+
+<div class="w3-container w3-row w3-center w3-dark-grey w3-padding-64">
+  <i class="fa fa-odnoklassniki w3-margin-top w3-jumbo"></i>
+
+  <h1 class="w3-center">Usuarios</h1>
+</div>
+
+
+<div class="w3-container w3-center" style="padding:56px 16px" id="team">
+  <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+    {%if users_list%}
+      {%  for user in users_list %}
+        <div class="w3-col l3 m6 w3-margin-bottom">
+          <div class="w3-card">
+            <img src="{{ user.profilePhoto_set.foto_perfil.url }}" style="width:100%"/>
+            <div class="w3-container">
+              <h3><a href="{% url 'user_info' user_id=user.username%}">{{user.username}}</a></h3>
+              <p class="w3-center w3-large" >Total de comentarios:{{  user.comentario_set.count}}</p>
+              <p class="w3-center w3-large" >Total de items votados:{{  user.vote_set.count}}</p>
+            </div>
+          </div>
+        </div>
+
+      {% endfor %}
+    {%else%}
+      <p class="w3-center w3-large">¡No hay ningún usuario registrado!</p>
+    {%endif%}
+  </div>
+
+</div>
+
+{% endblock %}

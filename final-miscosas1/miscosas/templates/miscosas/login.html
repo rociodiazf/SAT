@@ -1,0 +1,19 @@
+{% extends 'miscosas/base.html' %}
+
+{% block contenido %}
+<div class="w3-container w3-dark-grey">
+  <h1 class="w3-center">Inicio de sesión</h1>
+
+</div>
+<div class="w3-container w3-center" style="padding:16px 16px">
+
+  <form method="POST">
+      {{ form.as_p }}
+      {% csrf_token %}
+      <button type="submit">Login</button>
+  </form>
+</div>
+
+  <hr />
+  <a href="{% url 'new_user'%}">Registrar usuario</a>
+{% endblock %}

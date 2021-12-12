@@ -1,0 +1,62 @@
+{% extends 'miscosas/base.html' %}
+
+{% block contenido %}
+<div class="w3-container w3-row w3-center w3-dark-grey w3-padding-64">
+  <h1 class="w3-center">{{usuario.username}}</h1>
+</div>
+<hr>
+
+
+  <div class="w3-container w3-center" style="padding:128px 16px" id="top">
+    <i class="fa fa-heart w3-margin-bottom w3-jumbo"></i>
+    <h3 class="w3-center">Items votados</h3>
+    <div class="w3-row-padding w3-center" style="margin-top:64px">
+
+      {% for voto in usuario.vote_set.all %}
+        <div class="w3-third w3-card">
+          <i class= w3-margin-bottom w3-jumbo w3-center"></i>
+          <p class="w3-center w3-large"><a href="{% url 'item_info' item_id=voto.item.id%}">{{ voto.item.title }}</a></p>
+          <p class="w3-center w3-large"><a href="{{ voto.item.link }}"> {{ voto.item.link }}</a></p>
+          <p class="w3-center w3-large">Votos positivos: {{voto.item.votos_positivos}} || Votos negativos:{{voto.item.votos_negativos}}</p>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+  <hr>
+  <div class="w3-container w3-center" >
+    <i class="  	fa fa-comments w3-margin-bottom w3-jumbo"></i>
+    <h3 class="w3-center">ITEMS COMENTADOS</h3>
+    <div class="w3-row-padding w3-center">
+      {%if usuario.comentario_set.all%}
+        {% for comentario in usuario.comentario_set.all %}
+
+          <div class="w3-third w3-card">
+            <i class= w3-margin-bottom w3-jumbo w3-center"></i>
+            <p class="w3-center w3-large"><a href="{% url 'item_info' item_id=comentario.item.id%}">{{ comentario.item.title }}</a></p>
+            <p class="w3-center w3-large"><a href="{{ comentario.item.link }}"> {{ comentario.item.link }}</a></p>
+            <p class="w3-center w3-large">Votos positivos: {{comentario.item.votos_positivos}} || Votos negativos:{{comentario.item.votos_negativos}}</p>
+          </div>
+          {% endfor %}
+
+          </div>
+
+      {%else%}
+        <p class="w3-center w3-large">Este usuario no ha comentado ningún item</p>
+      {%endif%}
+
+    </div>
+  </div>
+
+
+  <br>
+  {% if usuario.is_authenticated and user.username == usuario.username%}
+<hr>
+    <div class="w3-container w3-center" >
+      <p class="w3-center w3-large">Cambia la foto de perfil:</p>
+      <button type="button"  class="btn btn-light"><a href="{% url 'profilePhoto' user_name=user%}">Foto de perfil</span></a></button>
+    </div>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'miscosas/base.html' %}
+
+{% block contenido %}
+
+<br>
+<div class="w3-container w3-row w3-center w3-dark-grey">
+  <i class=" 	fa fa-diamond w3-margin-top w3-jumbo"></i>
+  <h1>{{ alimentador.name }}</h1>
+  <p class="w3-center w3-large"><a href="{{ alimentador.link }}">{{ alimentador.link }}</a></p>
+  <p class="w3-center w3-large">Numero de items disponibles: {{alimentador.item_set.count}}</p>
+  <div class="w3-center">
+    <form method="POST">
+    {% csrf_token %}
+    <input type='hidden' name='alim_id' value='{{alimentador.id}}'>
+    {%  if alimentador.selected %}
+      <button class ="save btn btn-info" name = 'select' value = "Deseleccionar">Deseleccionar
+      </button>
+    {%elif not alimentador.selected%}
+      <button class ="save btn btn-info" name = 'select' value = "Seleccionar">Seleccionar
+      </button>
+      {%else%}
+        error
+    {%endif%}</form>
+  </div>
+
+</div>
+
+
+<div class="w3-container w3-center" style="padding:0px 16px" id="misvotos">
+
+  <div class="w3-row-padding w3-center" style="margin-top:64px">
+    {% if  alimentador.item_set.all  %}
+      {% for item in alimentador.item_set.all %}
+      <div class="w3-third"  style="margin-top:64px">
+        <i class="w3-margin-bottom w3-jumbo w3-center"></i>
+        <p class="thick"><a href="{% url 'item_info' item_id=item.id%}">{{ item.title }}</a></p>
+        <p style="color:DodgerBlue;"><a href="{{ item.link }}">{{ item.link }}</a></p>
+      </div>
+
+      {% endfor %}
+    {% else %}
+        <p>Contenido no disponible.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

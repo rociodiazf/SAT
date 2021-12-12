@@ -1,0 +1,16 @@
+{% extends 'miscosas/base.html' %}
+
+{% block contenido %}
+  <div class="w3-centre">
+    <h1>¡Bienvenido!</h1>
+      {% if form.errors %}
+      <p>Your username and password didn't match. Please try again.</p>
+      {% endif %}
+    <form method="POST"  class="miscosas-form" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-info">Guardar</button>
+    </form>
+  </div>
+
+
+{% endblock %}
