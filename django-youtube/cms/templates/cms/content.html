@@ -1,0 +1,18 @@
+
+<h1>{{ contenido.llave }}</h1>
+{% for comentario in contenido.comentario_set.all %}
+    <hr>
+    <h1>{{ comentario.titulo }}</h1><br>
+        {{ comentario.cuerpo }}<br>
+        Enviado el {{ comentario.fecha }}<br>
+{% endfor %}
+
+
+<br>
+<form action="" method="POST">
+  Introduce un nuevo comentario para esta página:
+  <br>Título: <input type="text" name="titulo">
+  <br>Cuerpo: <input type="text" name="cuerpo">
+  <input type="submit" name="action" value="Enviar Comentario">
+  
+</form>

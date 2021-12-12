@@ -1,0 +1,11 @@
+{% extends 'cms/content.html' %}
+
+{% block contenido %}
+    <h2>New Comment</h2>
+    <form method="POST"  class="cms-form">{% csrf_token %}
+        Titulo: {{ form.titulo }}
+        <br>
+        Cuerpo: {{ form.cuerpo }}
+        <button type="submit" class="save btn btn-info">Guardar</button>
+    </form>
+{% endblock %}
